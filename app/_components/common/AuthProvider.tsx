@@ -7,7 +7,7 @@ type Props = { children: React.ReactNode }
 export default function AuthProvider({ children }: Props) {
     const router = useRouter();
     const path = usePathname();
-    if (path != "/stock") {
+    if (path == "/") {
         router.push("/stock");
         return null;
     }

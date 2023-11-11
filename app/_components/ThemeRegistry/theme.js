@@ -13,7 +13,7 @@ const theme = createTheme({
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          backgroundImage: 'url("/static/img/background_menu.jpg")',
+          backgroundImage: 'url("/static/img/desktop-wallpaper-pink-aesthetic.jpg")',
           backgroundRepeat: "no-repeat",
           backgroundPosition: "bottom",
           width: drawerWidth,

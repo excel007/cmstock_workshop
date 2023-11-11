@@ -13,9 +13,6 @@ type Props = {
   };
 
 export default function ThemeRegistry({ children }: Props) {
-const theme = createTheme({
-    spacing:8,
-})
 
 return <ThemeProvider theme={theme}>{children}</ThemeProvider>
 }
