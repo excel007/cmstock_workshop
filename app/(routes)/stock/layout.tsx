@@ -1,10 +1,10 @@
 "use client" 
 import React from 'react'
 import { Box } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
-import Header from '@/app/_components/common/layout/Header';
-import Sidebar from '@/app/_components/common/layout/Sidebar';
-import DrawerHeader from '@/app/_components/common/layout/DrawerHeader';
+import { ThemeProvider, createTheme, styled, useTheme } from '@mui/material/styles';
+import Header from '@/app/_components/layout/Header';
+import Sidebar from '@/app/_components/layout/Sidebar';
+import DrawerHeader from '@/app/_components/layout/DrawerHeader';
 
 const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -39,16 +39,21 @@ export default function StockLayout({ children }: Props) {
   const handleDrawerClose = () => {
     setOpen(false);
   }
+
+  const theme = createTheme({
+
+  });
   return (
     <section>
       <Box sx={{ display: "flex" }}>
         <Header open={open} handleDrawerOpen={handleDrawerOpen} />
         <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>          
           <Main open={open}>
           <DrawerHeader />
+          <ThemeProvider theme= {theme}>
           {children}
+          </ThemeProvider>
           </Main>
         </Box>
       </Box>
