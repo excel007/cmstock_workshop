@@ -6,8 +6,7 @@ type Props = {
 
 export default function AuthLayout({ children }: Props) {
   return (
-    <div>
-      <h1>Auth Header</h1>
+    <div className='bg-gradient-to-r from-cyan-500 to-blue-500	h-screen'>
       {children}
     </div>
   )

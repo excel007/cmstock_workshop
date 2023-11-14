@@ -16,7 +16,7 @@ interface User {
 
 type Props = {}
 
-export default function Login({ }: Props) {
+export default function Register({ }: Props) {
   const initialValue: User = { username: "", password: "" }
   const formValidateSchema = yup.object().shape({
     username: yup.string().required("Username is required!!!").trim(),
@@ -102,7 +102,7 @@ export default function Login({ }: Props) {
           variant='contained'
           color='primary'
         >
-          Login
+          Create Account
         </Button>
         <Button
           className='mt-4'
@@ -110,10 +110,10 @@ export default function Login({ }: Props) {
           fullWidth
           variant='outlined'
           onClick={() => {
-            router.push("/register")
+            router.push("/login")
           }}
         >
-          Register
+          Login
         </Button>
 
       </form >
@@ -125,7 +125,7 @@ export default function Login({ }: Props) {
       <Card elevation={7} className='max-w-[345px] mt-10'>
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>
-            Login
+            Register
           </Typography>
           {showForm()}
         </CardContent>
