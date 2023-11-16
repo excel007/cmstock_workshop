@@ -8,6 +8,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 interface User {
   username: string;
@@ -120,12 +121,14 @@ export default function Register({ }: Props) {
     );
   };
 
+
+  const reducer = useSelector((state:any) => state.userReducer)
   return (
     <Box className='flex justify-center items-center'>
       <Card elevation={7} className='max-w-[345px] mt-10'>
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>
-            Register
+            Register [{reducer.count}]
           </Typography>
           {showForm()}
         </CardContent>

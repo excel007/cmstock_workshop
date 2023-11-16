@@ -3,11 +3,11 @@ import { Box, Button, Card, CardContent, InputAdornment, TextField, Typography }
 import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
 
-import React, { useState } from 'react'
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 interface User {
   username: string;
@@ -22,6 +22,9 @@ export default function Login({ }: Props) {
     username: yup.string().required("Username is required!!!").trim(),
     password: yup.string().required("Password is required!!!").trim(),
   })
+
+  const reducer = useSelector((state: any) => state.userReducer)
+
   const {
     control,
     handleSubmit,
@@ -125,7 +128,7 @@ export default function Login({ }: Props) {
       <Card elevation={7} className='max-w-[345px] mt-10'>
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>
-            Login
+            Login [{reducer.count}]
           </Typography>
           {showForm()}
         </CardContent>
