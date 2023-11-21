@@ -8,6 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { add, userSelector } from '@/store/slices/userSlice';
+import { useAppDispatch } from '@/store/store';
 
 interface User {
   username: string;
@@ -22,8 +24,6 @@ export default function Login({ }: Props) {
     username: yup.string().required("Username is required!!!").trim(),
     password: yup.string().required("Password is required!!!").trim(),
   })
-
-  const reducer = useSelector((state: any) => state.userReducer)
 
   const {
     control,
@@ -113,6 +113,7 @@ export default function Login({ }: Props) {
           fullWidth
           variant='outlined'
           onClick={() => {
+            dispatch(add())
             router.push("/register")
           }}
         >
@@ -122,6 +123,9 @@ export default function Login({ }: Props) {
       </form >
     );
   };
+  const reducer = useSelector(userSelector)
+  const dispatch = useAppDispatch()
+
 
   return (
     <Box className='flex justify-center items-center'>
