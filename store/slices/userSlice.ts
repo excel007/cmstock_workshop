@@ -30,6 +30,7 @@ const initialState: UserState = {
 export const signUp = createAsyncThunk(
     "user/signUp",
     async (credential: SignAction) => {
+        await new Promise((resolve) => setTimeout(resolve,2000))
         const response = await serverService.signUp(credential);
         return response;
     }
@@ -45,7 +46,11 @@ const userSlice = createSlice({
         }
     },
     extraReducers: (builder => {
+        builder.addCase(signUp.pending, (state, action) => {
+            state.status = "fetching"
+        })
         builder.addCase(signUp.fulfilled, (state, action) => {
+            state.status = "success"
             state.count++
         })
     })
