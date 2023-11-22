@@ -53,6 +53,10 @@ const userSlice = createSlice({
             state.status = "success"
             state.count++
         })
+        builder.addCase(signUp.rejected, (state, action) => {
+            state.status = "failed"
+            state.count++
+        })        
     })
 })
 

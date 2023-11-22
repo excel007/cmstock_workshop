@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, Card, CardContent, InputAdornment, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, Card, CardContent, InputAdornment, TextField, Typography } from '@mui/material'
 import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
 
@@ -38,9 +38,16 @@ export default function Register({ }: Props) {
   const showForm = () => {
     return (
       <form
-        onSubmit={handleSubmit((value: User) => {
+        onSubmit={handleSubmit(async (value: User) => {
           // alert(JSON.stringify(value))
-          dispatch(signUp(value));
+          // dispatch(signUp(value));
+          const result = await dispatch(signUp(value));
+          if (signUp.fulfilled.match(result)) {
+            console.log(result)
+            alert("Register successfully!!")
+          } else if (signUp.rejected.match(result)) {
+            alert("Register failed!!")
+          }
         })}
       >
         {/* username */}
@@ -98,7 +105,9 @@ export default function Register({ }: Props) {
             />
           )}
         />
-
+        {reducer.status == "failed" &&
+          (<Alert severity="error">Register failed</Alert>)
+        }
         <Button
           className='mt-8'
           type='submit'
