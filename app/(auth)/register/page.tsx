@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { userSelector, add } from '@/store/slices/userSlice';
+import { userSelector, add, signUp } from '@/store/slices/userSlice';
 import { useAppDispatch } from '@/store/store';
 
 interface User {
@@ -39,7 +39,8 @@ export default function Register({ }: Props) {
     return (
       <form
         onSubmit={handleSubmit((value: User) => {
-          alert(JSON.stringify(value))
+          // alert(JSON.stringify(value))
+          dispatch(signUp(value));
         })}
       >
         {/* username */}
