@@ -30,12 +30,20 @@ const initialState: UserState = {
 export const signUp = createAsyncThunk(
     "user/signUp",
     async (credential: SignAction) => {
-        await new Promise((resolve) => setTimeout(resolve,2000))
+        await new Promise((resolve) => setTimeout(resolve,1000))
         const response = await serverService.signUp(credential);
         return response;
     }
 )
 
+export const signIn = createAsyncThunk(
+    "user/signIn",
+    async (credential: SignAction) => {
+        await new Promise((resolve) => setTimeout(resolve,1000))
+        const response = await serverService.signIn(credential);
+        return response;
+    }
+)
 
 const userSlice = createSlice({
     name: "user",
@@ -46,6 +54,7 @@ const userSlice = createSlice({
         }
     },
     extraReducers: (builder => {
+        // for Register
         builder.addCase(signUp.pending, (state, action) => {
             state.status = "fetching"
         })
@@ -56,7 +65,20 @@ const userSlice = createSlice({
         builder.addCase(signUp.rejected, (state, action) => {
             state.status = "failed"
             state.count++
+        })
+        // for Login
+        builder.addCase(signIn.pending, (state, action) => {
+            state.status = "fetching"
+        })
+        builder.addCase(signIn.fulfilled, (state, action) => {
+            state.status = "success"
+            state.count++
+        })
+        builder.addCase(signIn.rejected, (state, action) => {
+            state.status = "failed"
+            state.count++
         })        
+        
     })
 })
 

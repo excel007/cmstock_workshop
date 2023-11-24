@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, Card, CardContent, InputAdornment, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, Card, CardContent, InputAdornment, TextField, Typography } from '@mui/material'
 import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
 
@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { add, userSelector } from '@/store/slices/userSlice';
+import { add, userSelector, signIn } from '@/store/slices/userSlice';
 import { useAppDispatch } from '@/store/store';
 
 interface User {
@@ -38,8 +38,14 @@ export default function Login({ }: Props) {
   const showForm = () => {
     return (
       <form
-        onSubmit={handleSubmit((value: User) => {
-          alert(JSON.stringify(value))
+        onSubmit={handleSubmit(async (value: User) => {
+          const result = await dispatch(signIn(value));
+          if (signIn.fulfilled.match(result)) {
+            console.log(result)
+            alert("Login successfully!!")
+          } else if (signIn.rejected.match(result)) {
+            alert("username or password not correct!!!")
+          }
         })}
       >
         {/* username */}
@@ -97,13 +103,16 @@ export default function Login({ }: Props) {
             />
           )}
         />
-
+        {reducer.status == "failed" &&
+          (<Alert severity="error">Login failed</Alert>)
+        }
         <Button
           className='mt-8'
           type='submit'
           fullWidth
           variant='contained'
           color='primary'
+          disabled={reducer.status == "fetching"}
         >
           Login
         </Button>

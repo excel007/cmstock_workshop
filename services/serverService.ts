@@ -9,3 +9,8 @@ export const signUp = async (user: signProps): Promise<any> => {
     const response = await httpClient.post<any>("/authen/register",user);
     return response.data;
 }
+
+export const signIn = async (user: signProps): Promise<any> => {
+    const response = await httpClient.post<any>("/authen/login",user);
+    return response.data;
+}
