@@ -29,6 +29,13 @@ const initialState: UserState = {
 
 }
 
+export const signOut = createAsyncThunk(
+    "user/signout",
+    async () => {
+        await serverService.signOut();
+    }
+)
+
 export const signUp = createAsyncThunk(
     "user/signup",
     async (credential: SignAction) => {
@@ -93,7 +100,11 @@ const userSlice = createSlice({
             state.status = "failed"
             state.count++
         })
-
+        // for sign out
+        builder.addCase(signOut.fulfilled, (state, action) => {
+            state.status = "success"
+            state.count++
+        })
     })
 })
 

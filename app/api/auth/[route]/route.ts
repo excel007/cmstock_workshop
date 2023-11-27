@@ -13,6 +13,9 @@ export async function GET(
     }): Promise<any> {
     const route = context.params.route;
     console.log("GET test =>>>> " + route);
+    if (route === "signout") {
+        return signout(request);
+    }
     return NextResponse.json({ route })
 }
 
@@ -31,9 +34,10 @@ export async function POST(
         if (route === "signin") {
             // return NextResponse.json(body)
             return signin(body);
+        } else if (route === "session") {
+            // return getSession()
         }
-    }catch(error:any)
-    {NextResponse.json({error:"Internal Server Error"})}
+    } catch (error: any) { NextResponse.json({ error: "Internal Server Error" }) }
 }
 
 async function signin(body:
@@ -54,4 +58,11 @@ async function signin(body:
     } catch (error: any) {
         return NextResponse.json({ result: "nok" })
     }
+}
+
+function signout(request: NextRequest) {
+    const cookieStore = cookies();
+    cookieStore.delete(ACCESS_TOKEN_KEY);
+    return NextResponse.json({ result: "ok" })
+
 }
