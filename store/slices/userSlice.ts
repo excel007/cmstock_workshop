@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import * as serverService from "@/services/serverService";
+import httpClient from "@/utils/httpClient";
+import { AxiosRequestConfig } from "axios";
 
 interface SignAction {
     username: string;
@@ -30,7 +32,7 @@ const initialState: UserState = {
 export const signUp = createAsyncThunk(
     "user/signup",
     async (credential: SignAction) => {
-        await new Promise((resolve) => setTimeout(resolve,1000))
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         const response = await serverService.signUp(credential);
         return response;
     }
@@ -39,11 +41,20 @@ export const signUp = createAsyncThunk(
 export const signIn = createAsyncThunk(
     "user/signin",
     async (credential: SignAction) => {
-        await new Promise((resolve) => setTimeout(resolve,1000))
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         const response = await serverService.signIn(credential);
-        
-        
-        
+
+        if (response.result != "ok") {
+            throw new Error("Login Failed");
+        }
+
+        //set access token
+        httpClient.interceptors.request.use((config?: AxiosRequestConfig | any) => {
+            if (config && config.headers) {
+                config.headers["Authorization"] = `Bearer ${response.token}`;
+            }
+            return config;
+        });
         return response;
     }
 )
@@ -80,8 +91,8 @@ const userSlice = createSlice({
         builder.addCase(signIn.rejected, (state, action) => {
             state.status = "failed"
             state.count++
-        })        
-        
+        })
+
     })
 })
 
