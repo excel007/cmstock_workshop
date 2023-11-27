@@ -35,7 +35,7 @@ export async function POST(
             // return NextResponse.json(body)
             return signin(body);
         } else if (route === "session") {
-            // return getSession()
+            return getSession(request)
         }
     } catch (error: any) { NextResponse.json({ error: "Internal Server Error" }) }
 }
@@ -65,4 +65,21 @@ function signout(request: NextRequest) {
     cookieStore.delete(ACCESS_TOKEN_KEY);
     return NextResponse.json({ result: "ok" })
 
+}
+
+async function getSession(request: NextRequest) {
+    try {
+        const cookieStore = cookies()
+        const accessTokenKey = cookieStore.get(ACCESS_TOKEN_KEY)
+        if (!!accessTokenKey?.value) {
+            const response = await httpClient.get(`/authen/profile`, {
+                headers: { Authorization: `Bearer ${accessTokenKey?.value}` },
+            })
+            return NextResponse.json(response.data)
+        } else {
+            return NextResponse.json({ result: "nok" })
+        }
+    } catch (error) {
+        return NextResponse.json({ result: "nok" })
+    }
 }
