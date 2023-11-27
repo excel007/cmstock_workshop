@@ -28,7 +28,7 @@ const initialState: UserState = {
 }
 
 export const signUp = createAsyncThunk(
-    "user/signUp",
+    "user/signup",
     async (credential: SignAction) => {
         await new Promise((resolve) => setTimeout(resolve,1000))
         const response = await serverService.signUp(credential);
@@ -37,10 +37,13 @@ export const signUp = createAsyncThunk(
 )
 
 export const signIn = createAsyncThunk(
-    "user/signIn",
+    "user/signin",
     async (credential: SignAction) => {
         await new Promise((resolve) => setTimeout(resolve,1000))
         const response = await serverService.signIn(credential);
+        
+        
+        
         return response;
     }
 )
