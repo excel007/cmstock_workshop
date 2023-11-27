@@ -42,7 +42,8 @@ export default function Login({ }: Props) {
           const result = await dispatch(signIn(value));
           if (signIn.fulfilled.match(result)) {
             console.log(result)
-            alert("Login successfully!!")
+            // alert("Login successfully!!")
+            router.push("/stock")
           } else if (signIn.rejected.match(result)) {
             alert("username or password not correct!!!")
           }
