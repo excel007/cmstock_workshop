@@ -44,17 +44,18 @@ export const signIn = createAsyncThunk(
         await new Promise((resolve) => setTimeout(resolve, 1000))
         const response = await serverService.signIn(credential);
 
+        // if not add this statement => state.status will missing => "fetching"
         if (response.result != "ok") {
             throw new Error("Login Failed");
         }
 
         //set access token
-        httpClient.interceptors.request.use((config?: AxiosRequestConfig | any) => {
-            if (config && config.headers) {
-                config.headers["Authorization"] = `Bearer ${response.token}`;
-            }
-            return config;
-        });
+        // httpClient.interceptors.request.use((config?: AxiosRequestConfig | any) => {
+        //     if (config && config.headers) {
+        //         config.headers["Authorization"] = `Bearer ${response.token}`;
+        //     }
+        //     return config;
+        // });
         return response;
     }
 )
